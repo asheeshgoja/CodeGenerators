@@ -11,7 +11,6 @@
  
  
  
-#include "SerailizerBase.h"
 #include <string>
 #include <vector>
 #include <functional>
@@ -66,17 +65,8 @@ namespace XXsd2CodeSample
 				return *this;
 			}
 			
-			//Metadata
-			METADATA_BEGIN
-				ADD_MEMBER(IsBackOrder)
-				ADD_MEMBER(title)
-				ADD_MEMBER(note)
-				ADD_MEMBER(quantity)
-				ADD_MEMBER(price)
-			METADATA_END
-			
-		};
+			};
+		}
 	}
-}
 
 

@@ -18,13 +18,7 @@ namespace XXsd2CodeSample
 		[Serializable]
 		public class	OrderItem : ICloneable
 		{
-
-			[System.Xml.Serialization.XmlIgnore] 
 			public	bool IsBackOrder; 
-
-			[System.Xml.Serialization.XmlElement("IsBackOrder")] 
-			public int _xml_IsBackOrder 			{ get { return IsBackOrder ? 1 : 0; } set { IsBackOrder = (value != 0); } }
-
 			public	string			title;
 			public	string			note;
 			public	int			quantity;
