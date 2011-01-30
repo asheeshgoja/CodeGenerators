@@ -198,21 +198,27 @@ namespace XXsd2Code.LanguageWriters
 
                         if (String.Equals(typeName, "bool", StringComparison.Ordinal))
                         {
-                            //.Net XML serializer writes bool as "true" and "false", but native serializer
-                            //only handles 1 / 0. Generate a property to override the default XML serialization
-                            //behavior such that serialized bool's are 1 / 0
-                            sw.WriteLine();
-                            sw.Write(GetTab());
-                            sw.Write("[System::Xml::Serialization::XmlIgnore] ");
-                            sw.WriteLine("{0} {1};{2}", typeName, var.Name, var.Comment);
-                            sw.Write(GetTab());
-                            //sw.WriteLine("///<summary>For use by XML Serializer only</summary>");
-                            sw.Write(GetTab());
-                            sw.Write("[System::Xml::Serialization::XmlElement(\"{0}\")] ", var.Name);
-                            sw.WriteLine("property int xml_{0} ", var.Name);
-                            sw.Write(GetTab());
-                            sw.WriteLine("{{ int get() {{ return {0} ? 1 : 0; }} void set(int value) {{ {0} = (value != 0); }} }}", var.Name);
-                            sw.WriteLine();
+                            if (CrossPlatformSerializationSupport)
+                            {
+
+                                //.Net XML serializer writes bool as "true" and "false", but native serializer
+                                //only handles 1 / 0. Generate a property to override the default XML serialization
+                                //behavior such that serialized bool's are 1 / 0
+                                sw.WriteLine();
+                                sw.Write(GetTab());
+                                sw.Write("[System::Xml::Serialization::XmlIgnore] ");
+                                sw.WriteLine("{0} {1};{2}", typeName, var.Name, var.Comment);
+                                sw.Write(GetTab());
+                                //sw.WriteLine("///<summary>For use by XML Serializer only</summary>");
+                                sw.Write(GetTab());
+                                sw.Write("[System::Xml::Serialization::XmlElement(\"{0}\")] ", var.Name);
+                                sw.WriteLine("property int xml_{0} ", var.Name);
+                                sw.Write(GetTab());
+                                sw.WriteLine("{{ int get() {{ return {0} ? 1 : 0; }} void set(int value) {{ {0} = (value != 0); }} }}", var.Name);
+                                sw.WriteLine();
+                            }
+                            else
+                                sw.WriteLine("{3}{0} {1};{2}", typeName, var.Name, var.Comment,GetTab());
                         }
                         else
                         {
