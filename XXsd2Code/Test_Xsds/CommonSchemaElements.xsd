@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://tempuri.org" xmlns:Namespace="XXsd2CodeSample.CommonElements" elementFormDefault="qualified" targetNamespace="http://tempuri.org" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="OrderItem">
+    <xs:sequence>
+      <xs:element name="title" type="xs:string" />
+      <xs:element name="note" type="xs:string" minOccurs="0" />
+      <xs:element name="quantity" type="xs:integer" />
+      <xs:element name="price" type="xs:decimal" />
+    </xs:sequence>
+    <xs:attribute name="IsBackOrder" type="xs:boolean" />
+  </xs:complexType>
+</xs:schema>
