@@ -11,7 +11,6 @@
  
  
  
-#include "SerailizerBase.h"
 #include <string>
 #include <vector>
 #include <functional>
@@ -62,76 +61,61 @@ namespace XXsd2CodeSample
 			return *this;
 		}
 			
-		//Metadata
-		METADATA_BEGIN
-			ADD_MEMBER(name)
-			ADD_MEMBER(zip)
-			ADD_MEMBER(city)
-			ADD_MEMBER(country)
-		METADATA_END
-			
-	};
+		};
  
-	class	CustomerOrder
-	{
-	public:
-		tstring		CustomerID;
-		Address		AddressInfo;
+		class	CustomerOrder
+		{
+		public:
+			tstring			CustomerID;
+			Address			AddressInfo;
 
-		//Explicit Template Instantiation  Takes care of Warning C4251
-		template class  std::allocator<XXsd2CodeSample::CommonElements::OrderItem*>;
-		template class  std::vector<XXsd2CodeSample::CommonElements::OrderItem*, std::allocator<XXsd2CodeSample::CommonElements::OrderItem*> >;
-		//End Explicit Template Instantiation 
+			//Explicit Template Instantiation  Takes care of Warning C4251
+			template class  std::allocator<XXsd2CodeSample::CommonElements::OrderItem*>;
+			template class  std::vector<XXsd2CodeSample::CommonElements::OrderItem*, std::allocator<XXsd2CodeSample::CommonElements::OrderItem*> >;
+			//End Explicit Template Instantiation 
 
-		typedef vector<XXsd2CodeSample::CommonElements::OrderItem*>		OrderItem_VECTOR;
-		OrderItem_VECTOR		Orders;
+			typedef vector<XXsd2CodeSample::CommonElements::OrderItem*>		OrderItem_VECTOR;
+			OrderItem_VECTOR			Orders;
 			
-		//default constructor
-		CustomerOrder()
-		{
+			//default constructor
+			CustomerOrder()
+			{
+			}
+			
+			//Destructor
+			~CustomerOrder()
+			{
+				for_each(Orders.begin(),Orders.end(),&CustomerOrder::DeleteElement<OrderItem_VECTOR::value_type>);
+				Orders.clear();
+			}
+			
+			//copy constuctor
+			CustomerOrder(const  CustomerOrder& rhs){*this = rhs;}
+			
+			//= operator
+			CustomerOrder& operator = (const CustomerOrder& rhs)
+			{
+				CustomerID = rhs.CustomerID ;
+				AddressInfo = rhs.AddressInfo ;
+				CopyVector<XXsd2CodeSample::CommonElements::OrderItem>(Orders,rhs.Orders) ;
+				return *this;
+			}
+			
+			
+			//Collection helpers
+			private:
+				template<typename TYPE>
+				static void DeleteElement(TYPE element){delete element;}
+			
+				template<typename T , typename VECTOR>
+				void CopyVector(VECTOR& dst, const  VECTOR& src )
+				{
+					for_each(dst.begin(),dst.end(),&CustomerOrder::DeleteElement<VECTOR::value_type>);
+					dst.clear();
+					for(size_t i = 0 ; i < src.size() ; i++)	dst.push_back( new T( *(src[i]) ) ) ;
+				}
+			
+			};
 		}
-			
-		//Destructor
-		~CustomerOrder()
-		{
-			for_each(Orders.begin(),Orders.end(),&CustomerOrder::DeleteElement<OrderItem_VECTOR::value_type>);
-			Orders.clear();
-		}
-			
-		//copy constuctor
-		CustomerOrder(const  CustomerOrder& rhs){*this = rhs;}
-			
-		//= operator
-		CustomerOrder& operator = (const CustomerOrder& rhs)
-		{
-			CustomerID = rhs.CustomerID ;
-			AddressInfo = rhs.AddressInfo ;
-			CopyVector<XXsd2CodeSample::CommonElements::OrderItem>(Orders,rhs.Orders) ;
-			return *this;
-		}
-			
-		//Metadata
-		METADATA_BEGIN
-			ADD_MEMBER(CustomerID)
-			ADD_MEMBER_NESTED(AddressInfo)
-			ADD_MEMBER_COLLECTION_NESTED(OrderItem_VECTOR,Orders)
-		METADATA_END
-			
-			
-	//Collection helpers
-	private:
-		template<typename TYPE>
-		static void DeleteElement(TYPE element){delete element;}
-			
-		template<typename T , typename VECTOR>
-		void CopyVector(VECTOR& dst, const  VECTOR& src )
-		{
-			for_each(dst.begin(),dst.end(),&CustomerOrder::DeleteElement<VECTOR::value_type>);
-			dst.clear();
-			for(size_t i = 0 ; i < src.size() ; i++)	dst.push_back( new T( *(src[i]) ) ) ;
-		}
-			
-	};
-}
 
 
