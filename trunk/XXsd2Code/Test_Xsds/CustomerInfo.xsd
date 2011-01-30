@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://tempuri.org" xmlns:Namespace="XXsd2CodeSample" elementFormDefault="qualified" targetNamespace="http://tempuri.org"  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="CommonSchemaElements.xsd" />
+  <xs:complexType name="CustomerOrder">
+    <xs:sequence>
+      <xs:element name="AddressInfo" type="Address" />
+      <xs:element name="Orders" type="OrderItem"  maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="CustomerID" type="xs:string" />
+  </xs:complexType>
+  <xs:element name="CustomerInfo" type="CustomerOrder"  />
+  <xs:complexType name="Address">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="zip" type="xs:integer" />
+      <xs:element name="city" type="xs:string" />
+      <xs:element name="country" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
