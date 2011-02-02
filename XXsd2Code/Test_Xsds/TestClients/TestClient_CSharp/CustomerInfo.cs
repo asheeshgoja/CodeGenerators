@@ -14,6 +14,16 @@ using XXsd2CodeSample.CommonElements;
 namespace XXsd2CodeSample
 {
  
+	//enumeration	CreditRating
+	public enum	CreditRating
+	{
+		[System.Xml.Serialization.XmlEnum(Name = "700")] Good = 700,
+		[System.Xml.Serialization.XmlEnum(Name = "750")] VeryGood = 750,
+		[System.Xml.Serialization.XmlEnum(Name = "790")] ExtremelyGood = 790,
+		[System.Xml.Serialization.XmlEnum(Name = "300")] Poor = 300
+			
+	}
+ 
 	[Serializable]
 	public class	Address : ICloneable
 	{
@@ -57,6 +67,7 @@ namespace XXsd2CodeSample
 	public class	CustomerOrder : ICloneable
 	{
 		public	string		CustomerID;
+		public	CreditRating		Rating;
 		public	Address		AddressInfo;
 
 		public	List<XXsd2CodeSample.CommonElements.OrderItem>	Orders;
@@ -65,6 +76,7 @@ namespace XXsd2CodeSample
 		public	CustomerOrder()
 		{
 			CustomerID = String.Empty;
+			Rating = XXsd2CodeSample.CreditRating.Good ;
 			AddressInfo = new Address() ;
 			Orders = new List<XXsd2CodeSample.CommonElements.OrderItem>() ;
 		}
@@ -74,6 +86,7 @@ namespace XXsd2CodeSample
 		{
 			CustomerOrder	 instance = new CustomerOrder() ;
 			instance.CustomerID = CustomerID ;
+			instance.Rating = Rating ;
 			instance.AddressInfo = (Address)AddressInfo.Clone() ;
 			instance.Orders.AddRange(Orders) ;
 			return instance;
@@ -83,6 +96,7 @@ namespace XXsd2CodeSample
 		public	void DeepCopy(CustomerOrder from)
 		{
 			CustomerID = from.CustomerID ;
+			Rating = from.Rating ;
 			AddressInfo.DeepCopy(from.AddressInfo) ;
 			Orders.AddRange(from.Orders) ;
 		}

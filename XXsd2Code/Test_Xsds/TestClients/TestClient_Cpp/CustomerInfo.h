@@ -29,6 +29,16 @@ using namespace XXsd2CodeSample::CommonElements;
 namespace XXsd2CodeSample
 {
  
+	//enumeration	CreditRating
+	enum	CreditRating
+	{
+		Good = 700,
+		VeryGood = 750,
+		ExtremelyGood = 790,
+		Poor = 300
+			
+	};
+ 
 	class	Address
 	{
 	public:
@@ -67,6 +77,7 @@ namespace XXsd2CodeSample
 		{
 		public:
 			tstring			CustomerID;
+			CreditRating			Rating;
 			Address			AddressInfo;
 
 			//Explicit Template Instantiation  Takes care of Warning C4251
@@ -80,6 +91,7 @@ namespace XXsd2CodeSample
 			//default constructor
 			CustomerOrder()
 			{
+				Rating = XXsd2CodeSample::Good ;
 			}
 			
 			//Destructor
@@ -96,6 +108,7 @@ namespace XXsd2CodeSample
 			CustomerOrder& operator = (const CustomerOrder& rhs)
 			{
 				CustomerID = rhs.CustomerID ;
+				Rating = rhs.Rating ;
 				AddressInfo = rhs.AddressInfo ;
 				CopyVector<XXsd2CodeSample::CommonElements::OrderItem>(Orders,rhs.Orders) ;
 				return *this;

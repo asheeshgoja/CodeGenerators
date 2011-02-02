@@ -113,21 +113,11 @@ namespace XXsd2Code
                     switch (_targetLanguage)
                     {
                         case TargetLanguage.CPP:
-                            nSpace = nSpace.Replace(".", "::");
-                            break;
                         case TargetLanguage.CPP_CLI:
                             nSpace = nSpace.Replace(".", "::");
-                            nSpace = nSpace.Replace("Contracts", "DataContract");
                             break;
                         case TargetLanguage.CSharp:
-                            nSpace = nSpace.Replace("Contracts", "DataContract");
-                            break;
-                        case TargetLanguage.JAVA:   //package name should be nameOfProj.nameOfProjInterface
-                            nSpace = nSpace.Replace("Contracts", "DataContract");
-                            nSpace = nSpace.Replace(".DataContract", "");
-                            if (nSpace.Contains("Interface"))
-                                nSpace = String.Format("{0}.{1}", nSpace.Substring(0, nSpace.IndexOf("Interface")), nSpace);
-                            nSpace = "XXsd2Code." + nSpace.ToLower();
+                        case TargetLanguage.JAVA: 
                             break;
                     }
 
@@ -172,9 +162,6 @@ namespace XXsd2Code
 
                 _outerClassName = xsd.Id;
 
-
-                outputFile = _fileOperationsHelper.CreateFileName(outputFile, xsdSchemaFileName, _destinationFolder, out outputFileOriginal, _targetLanguage, xsd.Id);
-
                 DetectAndExtractNestedNamespaces(xsd, xsdSchemaFileName, orgDir, targetLanguage);
 
                 String namespaceName = GetNamespaceFromXsd(xsd);
@@ -203,10 +190,10 @@ namespace XXsd2Code
                     {
                         if (_externalClassesnNamespaces.ContainsKey(c.Key) == false)
                         {
-                            if (targetLanguage == TargetLanguage.JAVA)
-                                _externalClassesnNamespaces.Add(c.Key, String.Format("{0}.{1}", nSpace, s.Id));
-                            else
-                                _externalClassesnNamespaces.Add(c.Key, nSpace);
+                            //if (targetLanguage == TargetLanguage.JAVA)
+                            //    _externalClassesnNamespaces.Add(c.Key, String.Format("{0}.{1}", nSpace, s.Id));
+                            // else
+                            _externalClassesnNamespaces.Add(c.Key, nSpace);
                         }
                     }
                     foreach (KeyValuePair<String, List<EnumElement>> c in _externalEnumsToGenerateMap)
@@ -227,9 +214,6 @@ namespace XXsd2Code
                 }
 
 
-                StreamWriter sw = new StreamWriter(outputFile);
-
-
                 switch (_targetLanguage)
                 {
                     case TargetLanguage.CPP:
@@ -248,9 +232,50 @@ namespace XXsd2Code
                         break;
                 }
 
-                _codeGenerator.Write(sw, namespaceName, enumsToGenerateMap, classesToGenerateMap);
-                
-                _fileOperationsHelper.CreateAndReplaceIfRequired( outputFileOriginal,  outputFile,  _targetLanguage);
+                if (_targetLanguage == TargetLanguage.JAVA)
+                {
+                    String destinationFolder = _destinationFolder;
+
+                    String nSpace = GetNamespaceFromXsd(xsd);
+                    String[] folders = nSpace.Split('.');
+                    foreach (string folder in folders)
+                    {
+                        destinationFolder += Path.DirectorySeparatorChar + folder;
+                        Directory.CreateDirectory(destinationFolder);
+                    }
+
+                    foreach (KeyValuePair<String, List<EnumElement>> item in enumsToGenerateMap)
+                    {
+                        outputFile = _fileOperationsHelper.CreateFileName(outputFile, destinationFolder, out outputFileOriginal, _targetLanguage, item.Key);
+                        StreamWriter sw = new StreamWriter(outputFile);
+                        Dictionary<String, List<EnumElement>> tmpDicEnumToCreate = new Dictionary<string, List<EnumElement>>();
+                        tmpDicEnumToCreate.Add(item.Key, item.Value);
+                        _codeGenerator.GenerateEnums(sw, tmpDicEnumToCreate);
+                        sw.Close();
+                        _fileOperationsHelper.CreateAndReplaceIfRequired(outputFileOriginal, outputFile, _targetLanguage);
+                    }
+
+                    foreach (KeyValuePair<String, List<ClassElement>> item in classesToGenerateMap)
+                    {
+                        outputFile = _fileOperationsHelper.CreateFileName(outputFile, destinationFolder, out outputFileOriginal, _targetLanguage, item.Key);
+                        StreamWriter sw = new StreamWriter(outputFile);
+                        Dictionary<String, List<ClassElement>> tmpDicClassToCreate = new Dictionary<string, List<ClassElement>>();
+                        tmpDicClassToCreate.Add(item.Key, item.Value);
+                        _codeGenerator.Write(sw, namespaceName, enumsToGenerateMap, tmpDicClassToCreate);
+                        _fileOperationsHelper.CreateAndReplaceIfRequired(outputFileOriginal, outputFile, _targetLanguage);
+                        sw.Close();
+                    }
+
+                }
+                else
+                {
+                    outputFile = _fileOperationsHelper.CreateFileName(outputFile, _destinationFolder, out outputFileOriginal, _targetLanguage, xsd.Id);
+                    StreamWriter sw = new StreamWriter(outputFile);
+                    _codeGenerator.Write(sw, namespaceName, enumsToGenerateMap, classesToGenerateMap);
+                    _fileOperationsHelper.CreateAndReplaceIfRequired(outputFileOriginal, outputFile, _targetLanguage);
+                    sw.Close();
+                }
+
             }
             catch (Exception x)
             {
@@ -548,10 +573,11 @@ namespace XXsd2Code
                             }
                         }
 
-                        if (_targetLanguage == TargetLanguage.JAVA)
-                            enm.NameSpace = nameSpace + "." + xsd.Id;
-                        else
-                            enm.NameSpace = nameSpace;
+                        //if (_targetLanguage == TargetLanguage.JAVA)
+                       //     enm.NameSpace = nameSpace + "." + xsd.Id;
+                       // else
+                        enm.NameSpace = nameSpace;
+
                         if (false == enumMemberExists)
                             enumsToGenerateMap[typeName].Add(enm);
                     }

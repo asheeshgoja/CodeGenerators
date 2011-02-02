@@ -20,6 +20,16 @@ using namespace XXsd2CodeSample::CommonElements;
 namespace XXsd2CodeSample
 {
  
+	//enumeration	CreditRating
+	public enum class	CreditRating
+	{
+		[System::Xml::Serialization::XmlEnum(Name = "700")] Good = 700,
+		[System::Xml::Serialization::XmlEnum(Name = "750")] VeryGood = 750,
+		[System::Xml::Serialization::XmlEnum(Name = "790")] ExtremelyGood = 790,
+		[System::Xml::Serialization::XmlEnum(Name = "300")] Poor = 300
+			
+	};
+ 
 	[SerializableAttribute]
 	public ref class	Address: public ICloneable
 	{
@@ -75,6 +85,7 @@ namespace XXsd2CodeSample
 	{
 	public:
 		String^		CustomerID;
+		CreditRating		Rating;
 		Address^		AddressInfo;
 
 		typedef List<XXsd2CodeSample::CommonElements::OrderItem^>		OrderItem_VECTOR;
@@ -84,6 +95,7 @@ namespace XXsd2CodeSample
 		CustomerOrder()
 		{
 			CustomerID = String::Empty;
+			Rating = XXsd2CodeSample::CreditRating::Good ;
 			AddressInfo = gcnew Address() ;
 			Orders = gcnew OrderItem_VECTOR() ;
 		}
@@ -103,6 +115,7 @@ namespace XXsd2CodeSample
 		CustomerOrder% operator = ( CustomerOrder%  rhs)
 		{
 			CustomerID = rhs.CustomerID ;
+			Rating = rhs.Rating ;
 			AddressInfo = safe_cast<Address^>(rhs.AddressInfo->Clone()) ;
 			Orders->AddRange(rhs.Orders) ;
 			return *this;
@@ -112,6 +125,7 @@ namespace XXsd2CodeSample
 		void	DeepCopy ( CustomerOrder^  from)
 		{
 			CustomerID = from->CustomerID ;
+			Rating = from->Rating ;
 			AddressInfo->DeepCopy(from->AddressInfo) ;
 			Orders->AddRange(from->Orders) ;
 		}

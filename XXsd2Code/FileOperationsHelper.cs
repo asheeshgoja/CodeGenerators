@@ -25,7 +25,7 @@ namespace XXsd2Code
     class FileOperations
     {
 
-        public string CreateFileName(string outputFile, string xsdSchemaFileName, string destinationFolder, out string outputFileOriginal, TargetLanguage targetLanguage, string xsd_Id)
+        public string CreateFileName(string outputFile, string destinationFolder, out string outputFileOriginal, TargetLanguage targetLanguage, string xsd_Id)
         {
 
             if (targetLanguage == TargetLanguage.CSharp)

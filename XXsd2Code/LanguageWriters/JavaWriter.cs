@@ -73,9 +73,9 @@ namespace XXsd2Code.LanguageWriters
             sw.WriteLine(" ");
 
             sw.WriteLine(String.Format("package {0};", packageName));
-            sw.WriteLine(" ");
+            //sw.WriteLine(" ");
             //sw.WriteLine("Interfaces.ICloneable;");
-            sw.WriteLine(" ");
+           // sw.WriteLine(" ");
 
             #region Imports statements for elements
 
@@ -91,20 +91,20 @@ namespace XXsd2Code.LanguageWriters
                 }
             }
 
-            if (enumsToGenerateMap.Count > 0)
-                sw.WriteLine("import javax.xml.bind.annotation.XmlEnumValue;");
+            //if (enumsToGenerateMap.Count > 0)
+            //    sw.WriteLine("import javax.xml.bind.annotation.XmlEnumValue;");
 
             sw.WriteLine(" ");
 
             #endregion
 
-            sw.WriteLine(" ");
-            sw.WriteLine(" ");
+            //sw.WriteLine(" ");
+            //sw.WriteLine(" ");
 
-            GenerateOuterClassBeginBlock(sw);
-            GenerateEnums(sw, enumsToGenerateMap);
+            //GenerateOuterClassBeginBlock(sw);
+            //GenerateEnums(sw, enumsToGenerateMap);
             GenerateClasses(sw, classesToGenerateMap, enumsToGenerateMap);
-            GenerateOuterClassEndBlock(sw);
+            //GenerateOuterClassEndBlock(sw);
 
             sw.WriteLine("");
             sw.WriteLine("");
@@ -146,7 +146,7 @@ namespace XXsd2Code.LanguageWriters
 
             sw.WriteLine(" ");
 
-            sw.WriteLine("{0}public static class\t{1} implements Cloneable", GetTab(), contextClassName);
+            sw.WriteLine("{0}public\tclass\t{1} implements Cloneable", GetTab(), contextClassName);
             sw.WriteLine("{0}{1}", GetTab(), "{");
 
 
