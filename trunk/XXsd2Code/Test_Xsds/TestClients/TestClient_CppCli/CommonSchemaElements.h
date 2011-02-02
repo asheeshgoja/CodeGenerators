@@ -20,15 +20,67 @@ namespace XXsd2CodeSample
 	namespace CommonElements
 	{
  
+		//enumeration	FuzzyCondition
+		public enum class	FuzzyCondition
+		{
+			[System::Xml::Serialization::XmlEnum(Name = "100")] Hot = 100,
+			[System::Xml::Serialization::XmlEnum(Name = "200")] VeryHot = 200,
+			[System::Xml::Serialization::XmlEnum(Name = "300")] ExtremelyHot = 300,
+			[System::Xml::Serialization::XmlEnum(Name = "0")] Cold = 0
+			
+		};
+ 
+		[SerializableAttribute]
+		public ref class	CreditCardDetails: public ICloneable
+		{
+		public:
+			String^			CCNumber;
+			String^			ExpirationDate;
+			FuzzyCondition			Rating;
+			
+			//default constructor
+			CreditCardDetails()
+			{
+				CCNumber = String::Empty;
+				ExpirationDate = String::Empty;
+				Rating = XXsd2CodeSample::CommonElements::FuzzyCondition::Hot ;
+			}
+			
+			//copy constuctor
+			CreditCardDetails( CreditCardDetails%  rhs){*this = rhs;}
+			
+			//IClonable Override
+			virtual	Object^ Clone()
+			{
+				CreditCardDetails^	 instance = gcnew CreditCardDetails() ;
+				*instance = *this ;
+				return instance;
+			}
+			
+			//= operator
+			CreditCardDetails% operator = ( CreditCardDetails%  rhs)
+			{
+				CCNumber = rhs.CCNumber ;
+				ExpirationDate = rhs.ExpirationDate ;
+				Rating = rhs.Rating ;
+				return *this;
+			}
+			
+			//DeepCopy
+			void	DeepCopy ( CreditCardDetails^  from)
+			{
+				CCNumber = from->CCNumber ;
+				ExpirationDate = from->ExpirationDate ;
+				Rating = from->Rating ;
+			}
+			
+		};
+ 
 		[SerializableAttribute]
 		public ref class	OrderItem: public ICloneable
 		{
 		public:
-
-			[System::Xml::Serialization::XmlIgnore] bool IsBackOrder;
-						[System::Xml::Serialization::XmlElement("IsBackOrder")] property int xml_IsBackOrder 
-			{ int get() { return IsBackOrder ? 1 : 0; } void set(int value) { IsBackOrder = (value != 0); } }
-
+			bool IsBackOrder;
 			String^			title;
 			String^			note;
 			int			quantity;

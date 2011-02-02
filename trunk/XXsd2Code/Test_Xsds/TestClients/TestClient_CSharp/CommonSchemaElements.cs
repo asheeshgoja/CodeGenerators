@@ -15,6 +15,51 @@ namespace XXsd2CodeSample
 	namespace CommonElements
 	{
  
+		//enumeration	FuzzyCondition
+		public enum	FuzzyCondition
+		{
+			[System.Xml.Serialization.XmlEnum(Name = "100")] Hot = 100,
+			[System.Xml.Serialization.XmlEnum(Name = "200")] VeryHot = 200,
+			[System.Xml.Serialization.XmlEnum(Name = "300")] ExtremelyHot = 300,
+			[System.Xml.Serialization.XmlEnum(Name = "0")] Cold = 0
+			
+		}
+ 
+		[Serializable]
+		public class	CreditCardDetails : ICloneable
+		{
+			public	string			CCNumber;
+			public	string			ExpirationDate;
+			public	FuzzyCondition			Rating;
+			
+			//default constructor
+			public	CreditCardDetails()
+			{
+				CCNumber = String.Empty;
+				ExpirationDate = String.Empty;
+				Rating = XXsd2CodeSample.CommonElements.FuzzyCondition.Hot ;
+			}
+			
+			//IClonable Override
+			public	virtual	object Clone()
+			{
+				CreditCardDetails	 instance = new CreditCardDetails() ;
+				instance.CCNumber = CCNumber ;
+				instance.ExpirationDate = ExpirationDate ;
+				instance.Rating = Rating ;
+				return instance;
+			}
+			
+			//DeepCopy
+			public	void DeepCopy(CreditCardDetails from)
+			{
+				CCNumber = from.CCNumber ;
+				ExpirationDate = from.ExpirationDate ;
+				Rating = from.Rating ;
+			}
+			
+		}
+ 
 		[Serializable]
 		public class	OrderItem : ICloneable
 		{

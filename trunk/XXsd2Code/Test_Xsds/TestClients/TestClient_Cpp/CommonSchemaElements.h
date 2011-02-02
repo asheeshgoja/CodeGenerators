@@ -29,44 +29,86 @@ namespace XXsd2CodeSample
 	namespace CommonElements
 	{
  
-		class	OrderItem
+		//enumeration	FuzzyCondition
+		enum	FuzzyCondition
+		{
+			Hot = 100,
+			VeryHot = 200,
+			ExtremelyHot = 300,
+			Cold = 0
+			
+		};
+ 
+		class	CreditCardDetails
 		{
 		public:
-			bool			IsBackOrder;
-			tstring			title;
-			tstring			note;
-			int			quantity;
-			double			price;
+			tstring			CCNumber;
+			tstring			ExpirationDate;
+			FuzzyCondition			Rating;
 			
 			//default constructor
-			OrderItem()
+			CreditCardDetails()
 			{
-				IsBackOrder = false ;
-				quantity = 0 ;
-				price = 0.0 ;
+				Rating = XXsd2CodeSample::CommonElements::Hot ;
 			}
 			
 			//Destructor
-			~OrderItem()
+			~CreditCardDetails()
 			{
 			}
 			
 			//copy constuctor
-			OrderItem(const  OrderItem& rhs){*this = rhs;}
+			CreditCardDetails(const  CreditCardDetails& rhs){*this = rhs;}
 			
 			//= operator
-			OrderItem& operator = (const OrderItem& rhs)
+			CreditCardDetails& operator = (const CreditCardDetails& rhs)
 			{
-				IsBackOrder = rhs.IsBackOrder ;
-				title = rhs.title ;
-				note = rhs.note ;
-				quantity = rhs.quantity ;
-				price = rhs.price ;
+				CCNumber = rhs.CCNumber ;
+				ExpirationDate = rhs.ExpirationDate ;
+				Rating = rhs.Rating ;
 				return *this;
 			}
 			
 			};
+ 
+			class	OrderItem
+			{
+			public:
+				bool				IsBackOrder;
+				tstring				title;
+				tstring				note;
+				int				quantity;
+				double				price;
+			
+				//default constructor
+				OrderItem()
+				{
+					IsBackOrder = false ;
+					quantity = 0 ;
+					price = 0.0 ;
+				}
+			
+				//Destructor
+				~OrderItem()
+				{
+				}
+			
+				//copy constuctor
+				OrderItem(const  OrderItem& rhs){*this = rhs;}
+			
+				//= operator
+				OrderItem& operator = (const OrderItem& rhs)
+				{
+					IsBackOrder = rhs.IsBackOrder ;
+					title = rhs.title ;
+					note = rhs.note ;
+					quantity = rhs.quantity ;
+					price = rhs.price ;
+					return *this;
+				}
+			
+				};
+			}
 		}
-	}
 
 
