@@ -10,6 +10,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	XXsd2CodeSample::CustomerOrder* co = new XXsd2CodeSample::CustomerOrder();
 	co->Orders.push_back( new XXsd2CodeSample::CommonElements::OrderItem());
+	co->Rating = XXsd2CodeSample::CreditRating::ExtremelyGood;
     co->Orders[0]->price = 100;
 
 	return 0;

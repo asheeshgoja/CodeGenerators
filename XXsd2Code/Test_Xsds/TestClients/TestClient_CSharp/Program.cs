@@ -11,6 +11,7 @@ namespace TestClient
         {
             XXsd2CodeSample.CustomerOrder co = new XXsd2CodeSample.CustomerOrder();
             co.Orders.Add(new XXsd2CodeSample.CommonElements.OrderItem());
+            co.Rating = XXsd2CodeSample.CreditRating.ExtremelyGood;
             co.Orders[0].price = 100;
         }
     }
