@@ -710,34 +710,6 @@ namespace XXsd2Code
             return str;
         }
 
-        protected string XSDToJavaType(ClassElement element)
-        {
-            switch (element.Type)
-            {
-                case XmlTypeCode.Float:
-                    return "double";
-                case XmlTypeCode.Short:
-                    return "int";
-                case XmlTypeCode.String:
-                    return "String";                                        
-                case XmlTypeCode.Long:
-                    return "long";
-                case XmlTypeCode.Double:
-                    return "double";
-                case XmlTypeCode.Int:
-                    return "int";
-                case XmlTypeCode.Boolean:
-                     return "boolean";    
-                case XmlTypeCode.Element:
-                    return element.CustomType;
-                case XmlTypeCode.DateTime: 
-                    return "Date";
-                case XmlTypeCode.Date:
-                    return "Date";
-                default:
-                    return "Object";
-            }
-        }
 
 
 
