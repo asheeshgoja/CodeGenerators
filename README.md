@@ -1,10 +1,6 @@
-Code generate C++, Java , C#, C++/CLI classes from xsd. Code generates cross platform serializable classes using XmlSerializer/DataContractJsonSerializer for .net and xstream/JettisonMappedXmlDriver for java. It supports nested xsds
-
-
 Usage
 
-Command line syntax : 	XXsd2Code <SourceDirectory> / <TargetDirectory> /<TargetLanguage>[C++,C++CLI,C#,Java]/<CPSS>[Optional]
-
+Command line syntax : XXsd2Code <SourceDirectory> / <TargetDirectory> /<TargetLanguage>[C++,C++CLI,C#,Java]/<CPSS>[Optional]
 
 Use the following commnand to generate code
 
