@@ -1,6 +1,6 @@
 Usage
 
-Command line syntax : XXsd2Code <SourceDirectory> / <TargetDirectory> /<TargetLanguage>[C++,C++CLI,C#,Java]/<CPSS>[Optional]
+Command line syntax : XXsd2Code [SourceDirectory] / [TargetDirectory] / [TargetLanguage][C++,C++CLI,C#,Java]/<CPSS>[Optional]
 
 Use the following commnand to generate code
 
